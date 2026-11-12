@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Add Borrower' if mode == 'add' else 'Edit Borrower' }}{% endblock %}
+{% macro err(name) %}{% if errors.get(name) %}<span class="err">{{ errors[name] }}</span>{% endif %}{% endmacro %}
+{% block content %}
+<h1>{{ 'Add a New Borrower' if mode == 'add' else 'Edit Borrower #' ~ borrower['BorrowerID'] }}</h1>
+{% if mode == 'add' %}
+  <p class="hint">Search the list first. One person must have only one borrower record. Fields marked * are required.</p>
+{% else %}
+  <p class="hint">Current values are filled in. The Borrower ID and registration date cannot be changed.</p>
+{% endif %}
+
+<form class="entry" method="post" novalidate
+      action="{{ url_for('add') if mode == 'add' else url_for('edit', borrower_id=borrower['BorrowerID']) }}">
+  {% if mode == 'edit' %}
+  <div class="row two">
+    <label>Borrower ID <input type="text" value="{{ borrower['BorrowerID'] }}" readonly disabled></label>
+    <label>Date registered <input type="text" value="{{ borrower['DateRegistered']|fmtdate }}" readonly disabled></label>
+  </div>
+  {% endif %}
+
+  <div class="row three">
+    <label class="{{ 'bad' if errors.get('FirstName') }}">First name *
+      <input type="text" name="FirstName" maxlength="50" value="{{ values.get('FirstName', '') }}">{{ err('FirstName') }}</label>
+    <label class="{{ 'bad' if errors.get('MiddleName') }}">Middle name
+      <input type="text" name="MiddleName" maxlength="50" value="{{ values.get('MiddleName', '') }}">{{ err('MiddleName') }}</label>
+    <label class="{{ 'bad' if errors.get('LastName') }}">Last name *
+      <input type="text" name="LastName" maxlength="50" value="{{ values.get('LastName', '') }}">{{ err('LastName') }}</label>
+  </div>
+
+  <div class="row two">
+    <label class="{{ 'bad' if errors.get('BirthDate') }}">Birth date *
+      <input type="date" name="BirthDate" value="{{ values.get('BirthDate', '') }}">{{ err('BirthDate') }}</label>
+    <label class="{{ 'bad' if errors.get('ContactNo') }}">Contact number *
+      <input type="text" name="ContactNo" maxlength="16" placeholder="09XXXXXXXXX" value="{{ values.get('ContactNo', '') }}">{{ err('ContactNo') }}</label>
+  </div>
+
+  <div class="row one">
+    <label class="{{ 'bad' if errors.get('Address') }}">Address *
+      <input type="text" name="Address" maxlength="150" placeholder="Purok / Barangay, Municipality, Province" value="{{ values.get('Address', '') }}">{{ err('Address') }}</label>
+  </div>
+
+  <div class="row two">
+    <label class="{{ 'bad' if errors.get('GovIDType') }}">Government ID type *
+      <select name="GovIDType">
+        <option value="">-- Choose --</option>
+        {% for t in id_types %}<option value="{{ t }}" {{ 'selected' if values.get('GovIDType') == t }}>{{ t }}</option>{% endfor %}
+      </select>{{ err('GovIDType') }}</label>
+    <label class="{{ 'bad' if errors.get('GovIDNo') }}">Government ID number *
+      <input type="text" name="GovIDNo" maxlength="30" value="{{ values.get('GovIDNo', '') }}">{{ err('GovIDNo') }}</label>
+  </div>
+
+  <div class="buttons">
+    <button type="submit" class="primary">{{ 'Save Borrower' if mode == 'add' else 'Save Changes' }}</button>
+    <a class="btn" href="{{ url_for('index') }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

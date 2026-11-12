@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}All Borrowers{% endblock %}
+{% block content %}
+<h1>Borrowers</h1>
+
+<form class="toolbar" method="get" action="{{ url_for('index') }}">
+  <label>Search
+    <input type="search" name="q" value="{{ q }}" placeholder="Name, address, contact no., or ID no.">
+  </label>
+  <label>Government ID
+    <select name="id_type">
+      <option value="">All types</option>
+      {% for t in id_types %}<option value="{{ t }}" {{ 'selected' if t == id_type }}>{{ t }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Sort by
+    <select name="sort">
+      <option value="id" {{ 'selected' if sort == 'id' }}>Borrower ID</option>
+      <option value="name" {{ 'selected' if sort == 'name' }}>Last name</option>
+      <option value="birth" {{ 'selected' if sort == 'birth' }}>Birth date</option>
+      <option value="registered" {{ 'selected' if sort == 'registered' }}>Date registered</option>
+    </select>
+  </label>
+  <label>Order
+    <select name="dir">
+      <option value="asc" {{ 'selected' if direction == 'asc' }}>Ascending</option>
+      <option value="desc" {{ 'selected' if direction == 'desc' }}>Descending</option>
+    </select>
+  </label>
+  <button type="submit">Apply</button>
+  <a class="link-reset" href="{{ url_for('index') }}">Reset</a>
+</form>
+
+<p class="count">Showing <strong>{{ rows|length }}</strong> of <strong>{{ total }}</strong> borrower record{{ '' if total == 1 else 's' }}.</p>
+
+{% if rows %}
+<div class="table-scroll">
+<table class="data">
+  <thead>
+    <tr><th>ID</th><th>Full name</th><th>Birth date</th><th>Contact no.</th><th>Address</th><th>Government ID</th><th>Registered</th><th class="actions">Actions</th></tr>
+  </thead>
+  <tbody>
+  {% for b in rows %}
+    <tr class="{{ 'hl' if b['BorrowerID'] == highlight }}">
+      <td>{{ b['BorrowerID'] }}</td>
+      <td><strong>{{ b['LastName'] }}</strong>, {{ b['FirstName'] }}{% if b['MiddleName'] %} {{ b['MiddleName'] }}{% endif %}</td>
+      <td>{{ b['BirthDate']|fmtdate }}</td>
+      <td>{{ b['ContactNo'] }}</td>
+      <td>{{ b['Address'] }}</td>
+      <td>{{ b['GovIDType'] }}<br><span class="muted">{{ b['GovIDNo'] }}</span></td>
+      <td>{{ b['DateRegistered']|fmtdate }}</td>
+      <td class="actions">
+        <a class="btn small" href="{{ url_for('edit', borrower_id=b['BorrowerID']) }}">Edit</a>
+        <a class="btn small danger" href="{{ url_for('delete', borrower_id=b['BorrowerID']) }}">Delete</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<div class="empty">
+  <p><strong>No borrowers found{% if q or id_type %} for your search or filter{% endif %}.</strong></p>
+  <p>{% if q or id_type %}Try a different spelling or <a href="{{ url_for('index') }}">reset the search</a>.{% else %}The table is empty. <a href="{{ url_for('add') }}">Add the first borrower</a>.{% endif %}</p>
+</div>
+{% endif %}
+{% endblock %}

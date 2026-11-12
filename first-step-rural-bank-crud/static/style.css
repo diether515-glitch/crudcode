@@ -1,0 +1,50 @@
+:root { --blue:#2E5C8A; --light:#F4F8FC; --line:#BFCFE0; --text:#222; --red:#B42318; --green:#1B6E3C; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: "Segoe UI", Calibri, Arial, sans-serif; color:var(--text); background:#fff; font-size:15px; line-height:1.45; }
+.wrap { max-width:1120px; margin:0 auto; padding:0 18px; }
+.topbar { background:var(--blue); color:#fff; }
+.topbar .wrap { display:flex; justify-content:space-between; align-items:center; padding-top:12px; padding-bottom:12px; gap:12px; flex-wrap:wrap; }
+.brand { color:#fff; text-decoration:none; font-weight:700; font-size:18px; }
+.brand span { font-weight:400; opacity:.85; margin-left:8px; font-size:15px; }
+nav a { color:#fff; text-decoration:none; margin-left:14px; }
+nav .btn-add { background:#fff; color:var(--blue); padding:6px 12px; border-radius:6px; font-weight:600; }
+h1 { color:var(--blue); font-size:24px; margin:22px 0 10px; }
+.hint { color:#555; margin-top:0; }
+.flash { padding:10px 14px; border-radius:6px; margin:16px 0 0; border:1px solid; }
+.flash.success { background:#E8F5EC; border-color:#9ED3AF; color:var(--green); }
+.flash.error { background:#FDECEA; border-color:#F1AEA7; color:var(--red); }
+.toolbar { display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; background:var(--light); border:1px solid var(--line); padding:12px; border-radius:8px; }
+.toolbar label { display:flex; flex-direction:column; font-size:12px; font-weight:600; color:#444; gap:3px; }
+.toolbar input[type=search] { min-width:260px; }
+input, select { font:inherit; padding:7px 9px; border:1px solid #9AB0C6; border-radius:6px; background:#fff; }
+input:disabled { background:#EEF2F6; color:#555; }
+button, .btn { font:inherit; padding:7px 14px; border-radius:6px; border:1px solid var(--blue); background:#fff; color:var(--blue); cursor:pointer; text-decoration:none; display:inline-block; }
+button[type=submit], button.primary { background:var(--blue); color:#fff; }
+.link-reset { align-self:center; margin-left:4px; color:var(--blue); }
+.count { margin:12px 0 8px; color:#444; }
+.table-scroll { overflow-x:auto; }
+table.data { width:100%; border-collapse:collapse; font-size:14px; }
+table.data th { background:var(--blue); color:#fff; text-align:left; padding:9px 10px; white-space:nowrap; }
+table.data td { padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+table.data tbody tr:nth-child(even) { background:var(--light); }
+table.data tr.hl td { background:#FFF6D6 !important; }
+.muted { color:#666; font-size:13px; }
+.actions { white-space:nowrap; }
+.btn.small { padding:3px 10px; font-size:13px; }
+.btn.danger { border-color:var(--red); color:var(--red); }
+.empty { border:1px dashed var(--line); background:var(--light); border-radius:8px; padding:20px; text-align:center; }
+form.entry { background:var(--light); border:1px solid var(--line); border-radius:8px; padding:18px; max-width:860px; }
+.row { display:grid; gap:14px; margin-bottom:14px; }
+.row.one { grid-template-columns:1fr; } .row.two { grid-template-columns:1fr 1fr; } .row.three { grid-template-columns:1fr 1fr 1fr; }
+form.entry label { display:flex; flex-direction:column; gap:4px; font-weight:600; font-size:13px; color:#333; }
+form.entry label.bad input, form.entry label.bad select { border-color:var(--red); background:#FFF8F7; }
+.err { color:var(--red); font-weight:500; font-size:12.5px; }
+.buttons { display:flex; gap:10px; margin-top:6px; }
+.confirm { max-width:640px; }
+.warn { background:#FFF3E0; border:1px solid #F0C27B; padding:10px 14px; border-radius:6px; }
+table.detail { width:100%; border-collapse:collapse; margin:12px 0 16px; }
+table.detail th { text-align:left; width:150px; background:var(--light); padding:7px 10px; border:1px solid var(--line); }
+table.detail td { padding:7px 10px; border:1px solid var(--line); }
+.danger-solid { background:var(--red); border-color:var(--red); color:#fff; }
+.foot { color:#777; font-size:12px; padding-top:30px; padding-bottom:20px; }
+@media (max-width:700px){ .row.two,.row.three{grid-template-columns:1fr;} }

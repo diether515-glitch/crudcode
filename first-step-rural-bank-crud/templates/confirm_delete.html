@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Confirm Delete{% endblock %}
+{% block content %}
+<h1>Delete Borrower #{{ b['BorrowerID'] }}?</h1>
+<div class="confirm">
+  <p class="warn"><strong>Are you sure?</strong> This permanently removes the record from the database and cannot be undone.</p>
+  <table class="detail">
+    <tr><th>Borrower ID</th><td>{{ b['BorrowerID'] }}</td></tr>
+    <tr><th>Full name</th><td>{{ b['FirstName'] }}{% if b['MiddleName'] %} {{ b['MiddleName'] }}{% endif %} {{ b['LastName'] }}</td></tr>
+    <tr><th>Birth date</th><td>{{ b['BirthDate']|fmtdate }}</td></tr>
+    <tr><th>Contact no.</th><td>{{ b['ContactNo'] }}</td></tr>
+    <tr><th>Address</th><td>{{ b['Address'] }}</td></tr>
+    <tr><th>Government ID</th><td>{{ b['GovIDType'] }} · {{ b['GovIDNo'] }}</td></tr>
+    <tr><th>Date registered</th><td>{{ b['DateRegistered']|fmtdate }}</td></tr>
+  </table>
+  <form method="post" action="{{ url_for('delete', borrower_id=b['BorrowerID']) }}" class="buttons">
+    <button type="submit" class="danger-solid">Yes, delete this borrower</button>
+    <a class="btn" href="{{ url_for('index') }}">No, cancel</a>
+  </form>
+</div>
+{% endblock %}

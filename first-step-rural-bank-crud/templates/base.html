@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Borrower Records{% endblock %} · First Step Rural Bank</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="{{ url_for('index') }}">First Step Rural Bank <span>Borrower Records</span></a>
+      <nav>
+        <a href="{{ url_for('index') }}">All Borrowers</a>
+        <a class="btn-add" href="{{ url_for('add') }}">+ Add Borrower</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}" role="alert">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="wrap foot">Database Rescue · Chapter 4 CRUD Mini System · Team Wonder Pets</footer>
+</body>
+</html>

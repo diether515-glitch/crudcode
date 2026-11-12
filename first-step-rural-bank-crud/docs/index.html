@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Borrower Records · First Step Rural Bank</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#fff;--light:#F4F8FC;--line:#BFCFE0;--text:#222;--blue:#2E5C8A;--onblue:#fff;--red:#B42318;--green:#1B6E3C;--field:#fff;--fieldline:#9AB0C6;--muted:#555;--dis:#EEF2F6;--hl:#FFF6D6;--okbg:#E8F5EC;--okline:#9ED3AF;--errbg:#FDECEA;--errline:#F1AEA7;--warnbg:#FFF3E0;--warnline:#F0C27B}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101820;--light:#18232F;--line:#2F4357;--text:#E6EDF3;--blue:#6FA3D6;--onblue:#0E1A26;--red:#F2877C;--green:#6FD39A;--field:#0F1A24;--fieldline:#47627D;--muted:#9FB0C0;--dis:#1B2733;--hl:#4A4220;--okbg:#14301F;--okline:#2D6B47;--errbg:#3A1C19;--errline:#7A3A33;--warnbg:#3A2C14;--warnline:#7A5A22}}
+:root[data-theme="dark"]{--bg:#101820;--light:#18232F;--line:#2F4357;--text:#E6EDF3;--blue:#6FA3D6;--onblue:#0E1A26;--red:#F2877C;--green:#6FD39A;--field:#0F1A24;--fieldline:#47627D;--muted:#9FB0C0;--dis:#1B2733;--hl:#4A4220;--okbg:#14301F;--okline:#2D6B47;--errbg:#3A1C19;--errline:#7A3A33;--warnbg:#3A2C14;--warnline:#7A5A22}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Calibri,Arial,sans-serif;color:var(--text);background:var(--bg);font-size:15px;line-height:1.45}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+.topbar{background:var(--blue);color:var(--onblue)}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;padding-top:12px;padding-bottom:12px;gap:12px;flex-wrap:wrap}
+.brand{color:inherit;text-decoration:none;font-weight:700;font-size:18px}.brand span{font-weight:400;opacity:.85;margin-left:8px;font-size:15px}
+nav a{color:inherit;text-decoration:none;margin-left:14px}
+nav .btn-add{background:var(--bg);color:var(--blue);padding:6px 12px;border-radius:6px;font-weight:600}
+h1{color:var(--blue);font-size:24px;margin:22px 0 10px}.hint{color:var(--muted);margin-top:0}
+.flash{padding:10px 14px;border-radius:6px;margin:16px 0 0;border:1px solid}
+.flash.success{background:var(--okbg);border-color:var(--okline);color:var(--green)}.flash.error{background:var(--errbg);border-color:var(--errline);color:var(--red)}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;background:var(--light);border:1px solid var(--line);padding:12px;border-radius:8px}
+.toolbar label{display:flex;flex-direction:column;font-size:12px;font-weight:600;color:var(--muted);gap:3px}
+.toolbar input[type=search]{min-width:260px}
+input,select{font:inherit;color:var(--text);padding:7px 9px;border:1px solid var(--fieldline);border-radius:6px;background:var(--field)}
+input:disabled{background:var(--dis);color:var(--muted)}
+button,.btn{font:inherit;padding:7px 14px;border-radius:6px;border:1px solid var(--blue);background:var(--bg);color:var(--blue);cursor:pointer;text-decoration:none;display:inline-block}
+button[type=submit],button.primary{background:var(--blue);color:var(--onblue)}
+.link-reset{align-self:center;margin-left:4px;color:var(--blue);background:none;border:0;text-decoration:underline;padding:0}
+.count{margin:12px 0 8px;color:var(--muted)}
+.table-scroll{overflow-x:auto}
+table.data{width:100%;border-collapse:collapse;font-size:14px}
+table.data th{background:var(--blue);color:var(--onblue);text-align:left;padding:9px 10px;white-space:nowrap}
+table.data td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+table.data tbody tr:nth-child(even){background:var(--light)}table.data tr.hl td{background:var(--hl)!important}
+.muted{color:var(--muted);font-size:13px}.actions{white-space:nowrap}
+.btn.small{padding:3px 10px;font-size:13px}.btn.danger{border-color:var(--red);color:var(--red)}
+.empty{border:1px dashed var(--line);background:var(--light);border-radius:8px;padding:20px;text-align:center}.empty a{color:var(--blue)}
+form.entry{background:var(--light);border:1px solid var(--line);border-radius:8px;padding:18px;max-width:860px}
+.row{display:grid;gap:14px;margin-bottom:14px}.row.one{grid-template-columns:1fr}.row.two{grid-template-columns:1fr 1fr}.row.three{grid-template-columns:1fr 1fr 1fr}
+form.entry label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:13px}
+form.entry label.bad input,form.entry label.bad select{border-color:var(--red)}
+.err{color:var(--red);font-weight:500;font-size:12.5px}
+.buttons{display:flex;gap:10px;margin-top:6px}
+.confirm{max-width:640px}.warn{background:var(--warnbg);border:1px solid var(--warnline);padding:10px 14px;border-radius:6px}
+table.detail{width:100%;border-collapse:collapse;margin:12px 0 16px}
+table.detail th{text-align:left;width:150px;background:var(--light);padding:7px 10px;border:1px solid var(--line)}table.detail td{padding:7px 10px;border:1px solid var(--line)}
+.danger-solid{border-color:var(--red)}
+.foot{color:var(--muted);font-size:12px;padding-top:30px;padding-bottom:20px}.foot button{font-size:12px;padding:0;border:0;background:none;color:var(--blue);text-decoration:underline}
+@media (max-width:700px){.row.two,.row.three{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="wrap">
+<a class="brand" href="#list">First Step Rural Bank <span>Borrower Records</span></a>
+<nav><a href="#list">All Borrowers</a><a class="btn-add" href="#add">+ Add Borrower</a></nav>
+</div></header>
+<main class="wrap" id="app"></main>
+<footer class="wrap foot">Database Rescue · Chapter 4 CRUD Mini System · Team Wonder Pets · sample data is fictional · <button id="reset" type="button">Reset sample data</button></footer>
+<script>
+const TYPES=["PhilSys ID","Driver's License","Voter's ID","SSS ID","UMID","Postal ID","PRC ID","Passport"];
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const SEED=[
+["Maria","Luisa","Santos","1985-03-12","09171230001","Purok 3, Brgy. San Vicente, Capas, Tarlac","PhilSys ID","4521-8830-1127-0001","2026-01-12"],
+["Juan","Pablo","Dela Cruz","1979-07-25","09181230002","Brgy. Sta. Maria, Concepcion, Tarlac","Driver's License","N03-26-004512","2026-01-15"],
+["Rosario","","Dela Cruz","1990-11-02","09191230003","Brgy. Poblacion, Gerona, Tarlac","Voter's ID","7102-0045-8890","2026-01-20"],
+["Eduardo","Manalo","Reyes","1972-04-18","09201230004","Brgy. Lawy, Victoria, Tarlac","SSS ID","33-4512890-1","2026-02-03"],
+["Teresita","Garcia","Mendoza","1988-09-30","09211230005","Brgy. Balite, Paniqui, Tarlac","PhilSys ID","3318-7702-4415-0005","2026-02-10"],
+["Ricardo","","Bautista","1983-01-08","09221230006","Brgy. Maliwalo, Tarlac City, Tarlac","UMID","CRN-0033-4512890-7","2026-02-18"],
+["Elena","Ramos","Aquino","1995-06-21","09231230007","Brgy. Anoling, Camiling, Tarlac","Postal ID","PRN-2201-77310","2026-03-02"],
+["Antonio","Santos","Villanueva","1968-12-05","09241230008","Brgy. Sta. Rita, Capas, Tarlac","Driver's License","N03-24-009821","2026-03-09"],
+["Gloria","Mercado","Pascual","1992-02-14","09251230009","Brgy. Poblacion A, Moncada, Tarlac","PhilSys ID","5509-1123-6684-0009","2026-03-16"],
+["Roberto","","Castillo","1981-08-27","09261230010","Brgy. Salapungan, Concepcion, Tarlac","Voter's ID","6620-1187-3345","2026-04-06"],
+["Lourdes","Navarro","Francisco","1976-10-09","09271230011","Brgy. Calumpang, Gerona, Tarlac","PRC ID","0098123","2026-04-20"],
+["Miguel","Torres","Domingo","1999-05-16","09281230012","Brgy. Mabini, Paniqui, Tarlac","PhilSys ID","7740-2285-9913-0012","2026-05-04"]];
+const KEYS=["FirstName","MiddleName","LastName","BirthDate","ContactNo","Address","GovIDType","GovIDNo","DateRegistered"];
+const seed=()=>({rows:SEED.map((r,i)=>Object.fromEntries([["BorrowerID",i+1],...KEYS.map((k,j)=>[k,r[j]])])),next:13});
+let db=seed();
+try{const s=JSON.parse(localStorage.getItem("fsrb-borrowers")||"null");if(s&&Array.isArray(s.rows))db=s}catch(e){}
+const save=()=>{try{localStorage.setItem("fsrb-borrowers",JSON.stringify(db))}catch(e){}};
+let ui={q:"",type:"",sort:"id",dir:"asc"},flash=null,hl=null;
+const $=document.getElementById("app");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fd=s=>{const[y,m,d]=s.split("-");return`${MON[+m-1]} ${d}, ${y}`};
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const clean=s=>(s||"").trim().replace(/\s+/g," ");
+const NAME=/^\p{L}+(?:[ .'\-]+\p{L}+)*\.?$/u,MOBILE=/^(09\d{9}|\+639\d{9})$/,GOV=/^[A-Za-z0-9\-/]+$/;
+function validate(f,ex){
+  const v={FirstName:clean(f.FirstName),MiddleName:clean(f.MiddleName),LastName:clean(f.LastName),BirthDate:clean(f.BirthDate),
+    ContactNo:(f.ContactNo||"").replace(/[ \-]/g,""),Address:clean(f.Address),GovIDType:clean(f.GovIDType),GovIDNo:clean(f.GovIDNo).toUpperCase()},e={};
+  [["FirstName","First name"],["LastName","Last name"]].forEach(([k,l])=>{
+    if(!v[k])e[k]=`${l} is required.`;else if(v[k].length<2||v[k].length>50)e[k]=`${l} must be 2 to 50 characters.`;
+    else if(!NAME.test(v[k]))e[k]=`${l} may contain letters, spaces, hyphens, apostrophes, and periods only.`});
+  if(v.MiddleName&&(v.MiddleName.length>50||!NAME.test(v.MiddleName)))e.MiddleName="Middle name may contain letters only (up to 50 characters).";
+  if(!v.BirthDate)e.BirthDate="Birth date is required.";
+  else{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v.BirthDate),b=m&&new Date(+m[1],+m[2]-1,+m[3]);
+    if(!b||b.getMonth()!==+m[2]-1)e.BirthDate="Birth date must be a valid date (YYYY-MM-DD).";
+    else{const t=new Date();let a=t.getFullYear()-b.getFullYear();if(t.getMonth()<b.getMonth()||(t.getMonth()===b.getMonth()&&t.getDate()<b.getDate()))a--;
+      if(b>t)e.BirthDate="Birth date cannot be in the future.";else if(a<18)e.BirthDate="Borrower must be at least 18 years old.";else if(a>100)e.BirthDate="Please check the birth date (age is over 100)."}}
+  if(!v.ContactNo)e.ContactNo="Contact number is required.";else if(!MOBILE.test(v.ContactNo))e.ContactNo="Use a Philippine mobile number: 09XXXXXXXXX or +639XXXXXXXXX.";
+  if(!v.Address)e.Address="Address is required.";else if(v.Address.length<10||v.Address.length>150)e.Address="Address must be 10 to 150 characters.";
+  if(!TYPES.includes(v.GovIDType))e.GovIDType="Choose a government ID type from the list.";
+  if(!v.GovIDNo)e.GovIDNo="Government ID number is required.";else if(v.GovIDNo.length<5||v.GovIDNo.length>30||!GOV.test(v.GovIDNo))e.GovIDNo="ID number must be 5 to 30 characters (letters, numbers, - or /).";
+  if(!e.GovIDType&&!e.GovIDNo){const d=db.rows.find(r=>r.GovIDType===v.GovIDType&&r.GovIDNo.toUpperCase()===v.GovIDNo&&r.BorrowerID!==ex);
+    if(d)e.GovIDNo=`This ${v.GovIDType} number is already registered (Borrower #${d.BorrowerID}).`}
+  if(!(e.FirstName||e.LastName||e.BirthDate)){const d=db.rows.find(r=>r.FirstName.toLowerCase()===v.FirstName.toLowerCase()&&r.LastName.toLowerCase()===v.LastName.toLowerCase()&&r.BirthDate===v.BirthDate&&r.BorrowerID!==ex);
+    if(d)e.LastName=`A borrower with the same name and birth date already exists (Borrower #${d.BorrowerID}).`}
+  return[v,e]}
+const flashHtml=()=>{const f=flash;flash=null;return f?`<div class="flash ${f[0]}" role="alert">${esc(f[1])}</div>`:""};
+const SORT={id:r=>[r.BorrowerID],name:r=>[r.LastName,r.FirstName],birth:r=>[r.BirthDate,r.BorrowerID],registered:r=>[r.DateRegistered,r.BorrowerID]};
+function cmp(a,b){for(let i=0;i<a.length;i++){if(a[i]<b[i])return-1;if(a[i]>b[i])return 1}return 0}
+function list(){
+  const toks=ui.q.split(/\s+/).filter(Boolean).slice(0,6).map(t=>t.toLowerCase());
+  let rows=db.rows.filter(r=>toks.every(t=>[r.FirstName,r.MiddleName,r.LastName,r.Address,r.GovIDNo,r.ContactNo].some(x=>x.toLowerCase().includes(t))||String(r.BorrowerID)===t)&&(!ui.type||r.GovIDType===ui.type));
+  rows.sort((a,b)=>cmp(SORT[ui.sort](a),SORT[ui.sort](b))*(ui.dir==="desc"?-1:1));
+  const opt=(v,l,c)=>`<option value="${esc(v)}" ${v===c?"selected":""}>${esc(l)}</option>`,n=db.rows.length;
+  $.innerHTML=flashHtml()+`<h1>Borrowers</h1>
+<form class="toolbar" data-f="filter">
+<label>Search<input type="search" name="q" value="${esc(ui.q)}" placeholder="Name, address, contact no., or ID no."></label>
+<label>Government ID<select name="type"><option value="">All types</option>${TYPES.map(t=>opt(t,t,ui.type)).join("")}</select></label>
+<label>Sort by<select name="sort">${[["id","Borrower ID"],["name","Last name"],["birth","Birth date"],["registered","Date registered"]].map(x=>opt(x[0],x[1],ui.sort)).join("")}</select></label>
+<label>Order<select name="dir">${opt("asc","Ascending",ui.dir)}${opt("desc","Descending",ui.dir)}</select></label>
+<button type="submit">Apply</button><button type="button" class="link-reset" id="rs">Reset</button></form>
+<p class="count">Showing <strong>${rows.length}</strong> of <strong>${n}</strong> borrower record${n===1?"":"s"}.</p>`+
+  (rows.length?`<div class="table-scroll"><table class="data"><thead><tr><th>ID</th><th>Full name</th><th>Birth date</th><th>Contact no.</th><th>Address</th><th>Government ID</th><th>Registered</th><th class="actions">Actions</th></tr></thead><tbody>${rows.map(b=>`
+<tr class="${b.BorrowerID===hl?"hl":""}"><td>${b.BorrowerID}</td><td><strong>${esc(b.LastName)}</strong>, ${esc(b.FirstName)}${b.MiddleName?" "+esc(b.MiddleName):""}</td><td>${fd(b.BirthDate)}</td><td>${esc(b.ContactNo)}</td><td>${esc(b.Address)}</td><td>${esc(b.GovIDType)}<br><span class="muted">${esc(b.GovIDNo)}</span></td><td>${fd(b.DateRegistered)}</td>
+<td class="actions"><a class="btn small" href="#edit-${b.BorrowerID}">Edit</a> <a class="btn small danger" href="#delete-${b.BorrowerID}">Delete</a></td></tr>`).join("")}</tbody></table></div>`
+  :`<div class="empty"><p><strong>No borrowers found${ui.q||ui.type?" for your search or filter":""}.</strong></p><p>${ui.q||ui.type?'Try a different spelling or <a href="#list" id="rs2">reset the search</a>.':'The table is empty. <a href="#add">Add the first borrower</a>.'}</p></div>`);
+  hl=null;document.title="All Borrowers · First Step Rural Bank"}
+function form(mode,b,v,e){
+  v=v||Object.fromEntries(KEYS.map(k=>[k,b?b[k]:""]));e=e||{};
+  const er=k=>e[k]?`<span class="err">${esc(e[k])}</span>`:"",bad=k=>e[k]?"bad":"",inp=(k,l,x="")=>`<label class="${bad(k)}">${l}<input type="text" name="${k}" ${x} value="${esc(v[k])}">${er(k)}</label>`;
+  $.innerHTML=flashHtml()+`<h1>${mode==="add"?"Add a New Borrower":"Edit Borrower #"+b.BorrowerID}</h1>
+<p class="hint">${mode==="add"?"Search the list first. One person must have only one borrower record. Fields marked * are required.":"Current values are filled in. The Borrower ID and registration date cannot be changed."}</p>
+<form class="entry" novalidate data-f="${mode}" ${b?`data-id="${b.BorrowerID}"`:""}>
+${mode==="edit"?`<div class="row two"><label>Borrower ID<input type="text" value="${b.BorrowerID}" readonly disabled></label><label>Date registered<input type="text" value="${fd(b.DateRegistered)}" readonly disabled></label></div>`:""}
+<div class="row three">${inp("FirstName","First name *",'maxlength="50"')}${inp("MiddleName","Middle name",'maxlength="50"')}${inp("LastName","Last name *",'maxlength="50"')}</div>
+<div class="row two"><label class="${bad("BirthDate")}">Birth date *<input type="date" name="BirthDate" value="${esc(v.BirthDate)}">${er("BirthDate")}</label>${inp("ContactNo","Contact number *",'maxlength="16" placeholder="09XXXXXXXXX"')}</div>
+<div class="row one">${inp("Address","Address *",'maxlength="150" placeholder="Purok / Barangay, Municipality, Province"')}</div>
+<div class="row two"><label class="${bad("GovIDType")}">Government ID type *<select name="GovIDType"><option value="">-- Choose --</option>${TYPES.map(t=>`<option value="${esc(t)}" ${v.GovIDType===t?"selected":""}>${esc(t)}</option>`).join("")}</select>${er("GovIDType")}</label>${inp("GovIDNo","Government ID number *",'maxlength="30"')}</div>
+<div class="buttons"><button type="submit" class="primary">${mode==="add"?"Save Borrower":"Save Changes"}</button><a class="btn" href="#list">Cancel</a></div></form>`;
+  document.title=(mode==="add"?"Add Borrower":"Edit Borrower")+" · First Step Rural Bank"}
+function confirmDelete(b){
+  $.innerHTML=flashHtml()+`<h1>Delete Borrower #${b.BorrowerID}?</h1><div class="confirm"><p class="warn"><strong>Are you sure?</strong> This permanently removes the record from the database and cannot be undone.</p>
+<table class="detail"><tr><th>Borrower ID</th><td>${b.BorrowerID}</td></tr><tr><th>Full name</th><td>${esc(b.FirstName)}${b.MiddleName?" "+esc(b.MiddleName):""} ${esc(b.LastName)}</td></tr><tr><th>Birth date</th><td>${fd(b.BirthDate)}</td></tr><tr><th>Contact no.</th><td>${esc(b.ContactNo)}</td></tr><tr><th>Address</th><td>${esc(b.Address)}</td></tr><tr><th>Government ID</th><td>${esc(b.GovIDType)} · ${esc(b.GovIDNo)}</td></tr><tr><th>Date registered</th><td>${fd(b.DateRegistered)}</td></tr></table>
+<form class="buttons" data-f="delete" data-id="${b.BorrowerID}"><button type="submit" class="primary danger-solid">Yes, delete this borrower</button><a class="btn" href="#list">No, cancel</a></form></div>`;
+  document.title="Confirm Delete · First Step Rural Bank"}
+function route(){
+  const h=location.hash.slice(1),m=/^(edit|delete)-(\d+)$/.exec(h);
+  if(h==="add")return form("add");
+  if(m){const b=db.rows.find(r=>r.BorrowerID===+m[2]);
+    if(!b){flash=["error",m[1]==="edit"?`Borrower #${m[2]} was not found.`:`Borrower #${m[2]} was not found. Nothing was deleted.`];return go("list")}
+    return m[1]==="edit"?form("edit",b):confirmDelete(b)}
+  list()}
+function go(h){if(location.hash.slice(1)===h)route();else location.hash=h}
+addEventListener("hashchange",()=>{route();scrollTo(0,0)});
+$.addEventListener("submit",ev=>{ev.preventDefault();const t=ev.target,k=t.dataset.f,f=Object.fromEntries(new FormData(t));
+  if(k==="filter"){ui={q:clean(f.q),type:f.type,sort:f.sort,dir:f.dir};return list()}
+  if(k==="delete"){const id=+t.dataset.id,b=db.rows.find(r=>r.BorrowerID===id);db.rows=db.rows.filter(r=>r.BorrowerID!==id);save();
+    flash=["success",`Borrower #${id} (${b.FirstName} ${b.LastName}) was deleted.`];return go("list")}
+  const id=k==="edit"?+t.dataset.id:-1,[v,e]=validate(f,id);
+  if(Object.keys(e).length){flash=["error",k==="add"?"The borrower was NOT saved. Please fix the errors below.":"The changes were NOT saved. Please fix the errors below."];
+    return form(k,k==="edit"?db.rows.find(r=>r.BorrowerID===id):null,v,e)}
+  if(k==="add"){const n=db.next++;db.rows.push({BorrowerID:n,...v,DateRegistered:iso(new Date())});hl=n;
+    flash=["success",`Borrower #${n} (${v.FirstName} ${v.LastName}) was added successfully.`]}
+  else{Object.assign(db.rows.find(r=>r.BorrowerID===id),v);hl=id;flash=["success",`Borrower #${id} (${v.FirstName} ${v.LastName}) was updated successfully.`]}
+  save();go("list")});
+$.addEventListener("click",ev=>{if(ev.target.id==="rs"||ev.target.id==="rs2"){ev.preventDefault();ui={q:"",type:"",sort:"id",dir:"asc"};list()}});
+document.getElementById("reset").addEventListener("click",()=>{db=seed();save();ui={q:"",type:"",sort:"id",dir:"asc"};flash=["success","Sample data restored (12 borrowers)."];go("list")});
+route();
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+[
+  {
+    "id": "C1",
+    "operation": "Create",
+    "test": "Add a valid borrower",
+    "input": "All fields filled with valid data (Angelica Rivera Cruz, PhilSys ID 8812-...-0013)",
+    "expected": "Record saved, ID generated, DateRegistered defaults to today, success message, count 12 to 13",
+    "actual": "Saved as Borrower #13, DateRegistered 2026-11-12, count 12 to 13; message: \"Borrower #13 (Angelica Cruz) was added successfully.\"",
+    "result": "Pass"
+  },
+  {
+    "id": "C2",
+    "operation": "Create",
+    "test": "Submit an empty form",
+    "input": "Every field left blank",
+    "expected": "Rejected with required-field messages; nothing saved",
+    "actual": "Rejected with 7 messages (e.g. \"First name is required.\"); count stayed 12",
+    "result": "Pass"
+  },
+  {
+    "id": "C3",
+    "operation": "Create",
+    "test": "Invalid values in several fields",
+    "input": "First name \"J0hn\", birth date 10 years ago, contact no. \"12345\"",
+    "expected": "Rejected with a message for each bad field; nothing saved",
+    "actual": "Rejected; 3 messages: First name may contain letters, spaces, hyphens, apostrophes, and periods only. | Borrower must be at least 18 years old. | Use a Philippine mobile number: 09XXXXXXXXX or +639XXXXXXXXX.",
+    "result": "Pass"
+  },
+  {
+    "id": "C4",
+    "operation": "Create",
+    "test": "Duplicate government ID",
+    "input": "New person but PhilSys ID 4521-8830-1127-0001 (already used by Borrower #1)",
+    "expected": "Rejected with a duplicate-ID message; nothing saved",
+    "actual": "Rejected: \"This PhilSys ID number is already registered (Borrower #1).\"; count stayed 12",
+    "result": "Pass"
+  },
+  {
+    "id": "C5",
+    "operation": "Create",
+    "test": "Same name and birth date, different ID",
+    "input": "Maria Santos, born 1985-03-12, with a new PhilSys ID number",
+    "expected": "Rejected as a duplicate borrower; nothing saved",
+    "actual": "Rejected: \"A borrower with the same name and birth date already exists (Borrower #1).\"; count stayed 12",
+    "result": "Pass"
+  },
+  {
+    "id": "R1",
+    "operation": "Read",
+    "test": "List all saved records",
+    "input": "Open the home page with no search",
+    "expected": "All 12 records from the database are shown in a table",
+    "actual": "Table shows 12 rows (IDs 1 to 12); text \"Showing 12 of 12 borrower records\" present: True",
+    "result": "Pass"
+  },
+  {
+    "id": "R2",
+    "operation": "Read",
+    "test": "Search by name",
+    "input": "Search box: \"dela cruz\"",
+    "expected": "Only Borrower #2 and #3 are shown",
+    "actual": "Rows returned: IDs [2, 3]",
+    "result": "Pass"
+  },
+  {
+    "id": "R3",
+    "operation": "Read",
+    "test": "Filter by government ID type",
+    "input": "Government ID filter: PhilSys ID",
+    "expected": "Only the four PhilSys ID borrowers (#1, #5, #9, #12) are shown",
+    "actual": "Rows returned: IDs [1, 5, 9, 12]",
+    "result": "Pass"
+  },
+  {
+    "id": "R4",
+    "operation": "Read",
+    "test": "Sort by birth date",
+    "input": "Sort by: Birth date, Ascending",
+    "expected": "Oldest borrower first (#8, born 1968), youngest last (#12, born 1999)",
+    "actual": "First row #8, last row #12, 12 rows",
+    "result": "Pass"
+  },
+  {
+    "id": "R5",
+    "operation": "Read",
+    "test": "Search with no match",
+    "input": "Search box: \"zzzz\"",
+    "expected": "A clear \"No borrowers found\" message, no table rows",
+    "actual": "Message \"No borrowers found for your search or filter.\" displayed; 0 rows",
+    "result": "Pass"
+  },
+  {
+    "id": "R6",
+    "operation": "Read",
+    "test": "SQL-injection style text in the search box",
+    "input": "Search box: ' OR 1=1 --",
+    "expected": "Treated as plain text (parameterized query): 0 matches, no error, table intact",
+    "actual": "HTTP 200; 0 rows returned; table still has 12 records",
+    "result": "Pass"
+  },
+  {
+    "id": "U1",
+    "operation": "Update",
+    "test": "Edit form is pre-filled and ID is locked",
+    "input": "Click Edit on Borrower #3",
+    "expected": "Current values appear in the form; Borrower ID is shown but cannot be edited",
+    "actual": "First name, last name, contact no. etc. pre-filled for #3; Borrower ID box is read-only/disabled and not a submitted field",
+    "result": "Pass"
+  },
+  {
+    "id": "U2",
+    "operation": "Update",
+    "test": "Save a valid change",
+    "input": "Borrower #3: contact no. changed to 09191239999, address changed",
+    "expected": "Only #3 changes; success message; other 11 records unchanged",
+    "actual": "Changed record(s): [3]; new contact no. 09191239999; message: \"Borrower #3 (Rosario Dela Cruz) was updated successfully.\"",
+    "result": "Pass"
+  },
+  {
+    "id": "U3",
+    "operation": "Update",
+    "test": "Invalid change is rejected",
+    "input": "Borrower #3: last name blank, contact no. \"abc\"",
+    "expected": "Rejected with messages; record #3 keeps its old values",
+    "actual": "Rejected; 2 messages: Last name is required. | Use a Philippine mobile number: 09XXXXXXXXX or +639XXXXXXXXX.; record #3 unchanged",
+    "result": "Pass"
+  },
+  {
+    "id": "U4",
+    "operation": "Update",
+    "test": "ID and registration date cannot be tampered with",
+    "input": "Edit #3 but also send BorrowerID=99 and DateRegistered=2000-01-01 in the request",
+    "expected": "Extra fields ignored: ID stays 3, DateRegistered unchanged",
+    "actual": "Still Borrower #3 with DateRegistered 2026-01-20; no record #99 was created",
+    "result": "Pass"
+  },
+  {
+    "id": "U5",
+    "operation": "Update",
+    "test": "Change to another borrower's government ID",
+    "input": "Borrower #3 given PhilSys ID 4521-8830-1127-0001 (belongs to #1)",
+    "expected": "Rejected as duplicate; record #3 unchanged",
+    "actual": "Rejected: \"This PhilSys ID number is already registered (Borrower #1).\"; record #3 unchanged",
+    "result": "Pass"
+  },
+  {
+    "id": "D1",
+    "operation": "Delete",
+    "test": "Confirmation appears before deleting",
+    "input": "Click Delete on Borrower #5",
+    "expected": "\"Are you sure?\" page with the record details; nothing deleted yet",
+    "actual": "Confirmation page shown for #5 (Teresita Garcia Mendoza); count still 12",
+    "result": "Pass"
+  },
+  {
+    "id": "D2",
+    "operation": "Delete",
+    "test": "Confirm the deletion",
+    "input": "On the confirmation page, click \"Yes, delete this borrower\" for #5",
+    "expected": "Only #5 is removed from the database; list updates immediately; count 12 to 11",
+    "actual": "Count 12 to 11; #5 missing from DB and from the list; message: \"Borrower #5 (Teresita Mendoza) was deleted.\"",
+    "result": "Pass"
+  },
+  {
+    "id": "D3",
+    "operation": "Delete",
+    "test": "Delete a record that does not exist",
+    "input": "Open /delete/999 and submit",
+    "expected": "Friendly \"not found\" message, no crash, no data lost",
+    "actual": "HTTP 200; message: \"Borrower #999 was not found. Nothing was deleted.\"; count stayed 12",
+    "result": "Pass"
+  },
+  {
+    "id": "D4",
+    "operation": "Delete",
+    "test": "Cancel keeps the record",
+    "input": "Open the confirmation for #7, then choose \"No, cancel\" (back to the list)",
+    "expected": "Record #7 is still in the database and the list",
+    "actual": "Record #7 still listed; count 12",
+    "result": "Pass"
+  }
+]
