@@ -58,7 +58,7 @@ table.detail th{text-align:left;width:150px;background:var(--light);padding:7px 
 <nav><a href="#list">All Borrowers</a><a class="btn-add" href="#add">+ Add Borrower</a></nav>
 </div></header>
 <main class="wrap" id="app"></main>
-<footer class="wrap foot">Database Rescue · Chapter 4 CRUD Mini System · Team Wonder Pets · sample data is fictional · <button id="reset" type="button">Reset sample data</button></footer>
+<footer class="wrap foot">Database Rescue · Chapter 4 CRUD Mini System · Team Wonder Pets</footer>
 <script>
 const TYPES=["PhilSys ID","Driver's License","Voter's ID","SSS ID","UMID","Postal ID","PRC ID","Passport"];
 const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -168,7 +168,7 @@ $.addEventListener("submit",ev=>{ev.preventDefault();const t=ev.target,k=t.datas
   else{Object.assign(db.rows.find(r=>r.BorrowerID===id),v);hl=id;flash=["success",`Borrower #${id} (${v.FirstName} ${v.LastName}) was updated successfully.`]}
   save();go("list")});
 $.addEventListener("click",ev=>{if(ev.target.id==="rs"||ev.target.id==="rs2"){ev.preventDefault();ui={q:"",type:"",sort:"id",dir:"asc"};list()}});
-document.getElementById("reset").addEventListener("click",()=>{db=seed();save();ui={q:"",type:"",sort:"id",dir:"asc"};flash=["success","Sample data restored (12 borrowers)."];go("list")});
+
 route();
 </script>
 </body>
