@@ -1,0 +1,3 @@
+[build]
+  # Serve the browser-only demo of the Borrower Records CRUD system
+  publish = "first-step-rural-bank-crud/docs"
